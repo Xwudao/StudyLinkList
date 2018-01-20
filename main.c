@@ -41,7 +41,7 @@ void traverse_list(PNODE pHead);
 int is_empty(PNODE);
 int length_list(PNODE);//统计长度
 void sort_list(PNODE);
-
+int insert_list(PNODE, int, int);//增加节点
 int main()
 {
     PNODE pHead = NULL;
@@ -49,16 +49,19 @@ int main()
     pHead = create_list();
 
     traverse_list(pHead);
-    if (is_empty(pHead))
-    {
-        printf("The linked-list is empty!\n");
-    } else {
-        printf("The linked-list is not empty!\n");
-    }
+//    if (is_empty(pHead))
+//    {
+//        printf("The linked-list is empty!\n");
+//    } else {
+//        printf("The linked-list is not empty!\n");
+//    }
+//
+//    length = length_list(pHead);
+//    printf("The list's length is %d\n", length);
+//    sort_list(pHead);
+//    traverse_list(pHead);
 
-    length = length_list(pHead);
-    printf("The list's length is %d\n", length);
-    sort_list(pHead);
+    insert_list(pHead, 1, 10);
     traverse_list(pHead);
     return 0;
 }
@@ -67,13 +70,15 @@ PNODE create_list()
 {
     int len;
     int i,val;
-    //创建一个空的头结点    PNODE pHead = (PNODE)malloc(sizeof(NODE));
+    //创建一个空的头结点
+    PNODE pHead = (PNODE)malloc(sizeof(NODE));
     if (NULL == pHead)
     {
         printf("Sorry, the memory can't be allocated");
         exit(-1);
     }
-    //创建尾指针，让它一直指向最后一个节点    PNODE pTail = pHead;
+    //创建尾指针，让它一直指向最后一个节点
+    PNODE pTail = pHead;
     pTail->pNext=NULL;
 
     printf("Please input the Linked-list's length:");
@@ -135,7 +140,7 @@ int length_list(PNODE pHead)
 void sort_list(PNODE pHead)
 {
     PNODE p,q;
-    int i,j,t;
+    int t;
     int len = length_list(pHead);
 
     for (p=pHead->pNext;p!=NULL;p=p->pNext)
@@ -153,6 +158,31 @@ void sort_list(PNODE pHead)
     return;
 
 }
+
+int insert_list(PNODE pHead, int pos, int val)
+{
+    PNODE p = pHead, pNew, q;
+    int i=0;
+    //关键算法
+    while (NULL != p && i<pos-1)
+    {
+        p = p->pNext;
+        ++i;
+    }
+
+    if(i>pos-1 || NULL==p)
+        return 0;
+
+    pNew = (PNODE)malloc(sizeof(NODE));
+
+    pNew->num = val;
+    q = p->pNext;
+    p->pNext = pNew;
+    pNew->pNext = q;
+
+    return 1;
+}
+
 //基本链表演示完毕
 
 
